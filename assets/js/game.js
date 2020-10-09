@@ -59,21 +59,8 @@ var fight = function(enemy) {
 
   while(enemy.health > 0 && playerInfo.health >= 0) {
     console.log(playerInfo.health)
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-    if (promptFight === "skip" || promptFight === "SKIP") {
-        // confirm user wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-      
-        // if yes (true), leave fight
-        if (confirmSkip) {
-            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-            // subtract money from playerInfo.money for skipping
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            
-            console.log("playerInfo.money", playerInfo.money);
-            break;
-        }
+    if (fightOrSkip()) {
+        break;
     }
 
     // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
@@ -105,8 +92,6 @@ var fight = function(enemy) {
      window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
      }
     }
-
-   
 
   }   
 
@@ -197,11 +182,39 @@ var shop = function() {
 function getPlayerName() {
     let name;
 
-    while(name===null || name?.trim() === "") {
-      name = prompt("What is your robot's name?");
+    while(!name || !name.trim()) {
+        name = prompt("What is your robot's name?");
     }
 
     return name;
 }
+
+
+function fightOrSkip() {
+    // ask user if they'd like to fight or skip using  function
+    var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+  
+    // Enter the conditional recursive function call here!
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+      }
+    // if user picks "skip" confirm and then stop the loop
+    if (promptFight.toUpperCase() === "SKIP") {
+      // confirm user wants to skip
+      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+  
+      // if yes (true), leave fight
+      if (confirmSkip) {
+        window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+        // subtract money from playerMoney for skipping
+        playerInfo.playerMoney = playerInfo.money - 10;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 startGame();
 
