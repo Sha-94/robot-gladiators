@@ -1,5 +1,5 @@
 var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -194,7 +194,14 @@ var shop = function() {
     
 };
 
+function getPlayerName() {
+    let name;
 
+    while(name===null || name?.trim() === "") {
+      name = prompt("What is your robot's name?");
+    }
 
+    return name;
+}
 startGame();
 
